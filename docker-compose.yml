@@ -1,0 +1,100 @@
+version: "3.9"
+
+# ── StreetSight Docker Compose ─────────────────────────────────────────────────
+# Run with: docker-compose up --build
+# Services:
+#   - postgres   : PostgreSQL 16
+#   - redis      : Redis 7
+#   - backend    : Node/Express API (port 3001)
+#   - frontend   : React app served via Nginx (port 5173)
+
+services:
+
+  # ── PostgreSQL ───────────────────────────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: ss_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: streetsight
+      POSTGRES_PASSWORD: streetsight_pass
+      POSTGRES_DB: streetsight_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U streetsight -d streetsight_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Redis ────────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: ss_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  # ── Backend ──────────────────────────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: ss_backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      DATABASE_URL: postgresql://streetsight:streetsight_pass@postgres:5432/streetsight_db
+      REDIS_URL: redis://redis:6379
+      JWT_SECRET: ${JWT_SECRET:-change_me_insecure_default}
+      STREET_VIEW_API_KEY: ${STREET_VIEW_API_KEY:-}
+      FRONTEND_URL: http://localhost:5173
+    ports:
+      - "3001:3001"
+    # Run migrations + seed on startup, then start server
+    command: >
+      sh -c "
+        npx prisma migrate deploy &&
+        node dist/server.js
+      "
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:3001/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  # ── Frontend ─────────────────────────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: /api
+        VITE_STREET_VIEW_API_KEY: ${STREET_VIEW_API_KEY:-}
+        VITE_OSM_TILE_URL: ${OSM_TILE_URL:-https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png}
+    container_name: ss_frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "5173:80"
+
+volumes:
+  postgres_data:
+  redis_data:

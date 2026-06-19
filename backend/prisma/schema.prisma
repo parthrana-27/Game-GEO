@@ -1,0 +1,63 @@
+// Prisma Schema for StreetSight
+// Run: npx prisma migrate dev --name init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  createdAt    DateTime @default(now()) @map("created_at")
+  games        Game[]
+
+  @@map("users")
+}
+
+model Game {
+  id         String   @id @default(cuid())
+  userId     String?  @map("user_id")
+  user       User?    @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now()) @map("created_at")
+  totalScore Int      @default(0) @map("total_score")
+  region     String   @default("WORLD")
+  completed  Boolean  @default(false)
+  rounds     Round[]
+
+  @@map("games")
+}
+
+model Round {
+  id          String  @id @default(cuid())
+  gameId      String  @map("game_id")
+  game        Game    @relation(fields: [gameId], references: [id])
+  roundNumber Int     @map("round_number")
+  locationId  String  @map("location_id")
+  location    Location @relation(fields: [locationId], references: [id])
+  trueLat     Float   @map("true_lat")
+  trueLng     Float   @map("true_lng")
+  guessLat    Float?  @map("guess_lat")
+  guessLng    Float?  @map("guess_lng")
+  distanceKm  Float?  @map("distance_km")
+  score       Int?
+  completed   Boolean @default(false)
+
+  @@map("rounds")
+}
+
+model Location {
+  id                   String  @id @default(cuid())
+  region               String  // WORLD | INDIA | CITY_SURAT
+  lat                  Float
+  lng                  Float
+  streetViewMetadata   Json?   @map("street_view_metadata")
+  rounds               Round[]
+
+  @@map("locations")
+}
