@@ -52,8 +52,10 @@ cp .env.example .env
 # 3. Build and start all services
 docker-compose up --build
 
-# 4. Seed the database (first time only)
-docker exec ss_backend npm run seed
+# 4. Seed the database from the host (first time only)
+cd backend
+npm run seed
+cd ..
 
 # 5. Open the app
 open http://localhost:5173
@@ -159,12 +161,11 @@ npm run dev
 
 ### Seeding
 
-```bash
-# In Docker:
-docker exec ss_backend npm run seed
+Since the production backend container omits development dependencies (including `ts-node`), seeding is run directly from the host machine (which connects to the PostgreSQL database exposed at `localhost:5432`):
 
-# Locally:
-cd backend && npm run seed
+```bash
+cd backend
+npm run seed
 ```
 
 The seed script populates ~60 locations across WORLD, INDIA, and CITY_SURAT.
