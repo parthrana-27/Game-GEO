@@ -40,31 +40,36 @@ export function AuthModal({ onSuccess, onClose, signin, signup }: Props) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
-      <div className="card max-w-md w-full animate-slide-up">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+      <div className="card max-w-md w-full bg-surface-900 border border-surface-800 rounded-none relative p-6 animate-slide-up">
+        <span className="tactical-corner-tl"></span>
+        <span className="tactical-corner-tr"></span>
+        <span className="tactical-corner-bl"></span>
+        <span className="tactical-corner-br"></span>
+
         {/* Close */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 btn-ghost text-xl leading-none"
+          className="absolute top-4 right-4 btn-ghost text-lg leading-none p-1 font-mono hover:text-brand-400"
           aria-label="Close modal"
           id="auth-modal-close"
         >
           ×
         </button>
 
-        <h2 className="text-2xl font-display font-bold text-gradient mb-1">
-          {mode === "signin" ? "Welcome back" : "Create account"}
+        <h2 className="text-xl font-mono font-bold text-gradient uppercase tracking-widest mb-1.5">
+          {mode === "signin" ? "TERMINAL_LOGIN" : "CREATE_OPERATOR"}
         </h2>
-        <p className="text-surface-400 text-sm mb-6">
+        <p className="text-surface-500 font-mono text-[10px] uppercase mb-6 leading-relaxed">
           {mode === "signin"
-            ? "Sign in to save your scores to the leaderboard."
-            : "Register to track your scores across sessions."}
+            ? "Authenticate identity to access remote tracking logs."
+            : "Register new operator signature in database."}
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label htmlFor="auth-email" className="block text-sm font-medium text-surface-300 mb-1.5">
-              Email
+            <label htmlFor="auth-email" className="block text-[10px] font-mono font-bold tracking-widest text-surface-400 uppercase mb-1.5">
+              EMAIL REFERENCE
             </label>
             <input
               id="auth-email"
@@ -78,8 +83,8 @@ export function AuthModal({ onSuccess, onClose, signin, signup }: Props) {
             />
           </div>
           <div>
-            <label htmlFor="auth-password" className="block text-sm font-medium text-surface-300 mb-1.5">
-              Password
+            <label htmlFor="auth-password" className="block text-[10px] font-mono font-bold tracking-widest text-surface-400 uppercase mb-1.5">
+              ACCESS PASSCODE
             </label>
             <input
               id="auth-password"
@@ -89,14 +94,14 @@ export function AuthModal({ onSuccess, onClose, signin, signup }: Props) {
               autoComplete={mode === "signup" ? "new-password" : "current-password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="At least 6 characters"
+              placeholder="Min. 6 alphanumeric chars"
               className="input-field"
             />
           </div>
 
           {error && (
-            <div className="px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
-              {error}
+            <div className="px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-none text-red-400 text-xs font-mono">
+              ERR // {error.toUpperCase()}
             </div>
           )}
 
@@ -104,17 +109,17 @@ export function AuthModal({ onSuccess, onClose, signin, signup }: Props) {
             id="auth-submit-btn"
             type="submit"
             disabled={loading}
-            className="btn-primary w-full"
+            className="btn-primary w-full text-xs font-mono font-bold tracking-widest uppercase py-3"
           >
-            {loading ? "Please wait…" : mode === "signin" ? "Sign In" : "Create Account"}
+            {loading ? "AUTHENTICATING..." : mode === "signin" ? "INITIATE ACCESS" : "REGISTER SIGNATURE"}
           </button>
         </form>
 
-        <p className="text-center text-surface-400 text-sm mt-5">
-          {mode === "signin" ? "Don't have an account?" : "Already have an account?"}{" "}
+        <p className="text-center text-surface-500 font-mono text-[10px] uppercase mt-6">
+          {mode === "signin" ? "No account registered?" : "Already registered?"}{" "}
           <button
             onClick={() => { setMode(mode === "signin" ? "signup" : "signin"); setError(""); }}
-            className="text-brand-400 hover:text-brand-300 font-semibold transition-colors"
+            className="text-brand-400 hover:text-brand-350 font-bold underline transition-colors ml-1 uppercase"
             id="auth-mode-toggle"
           >
             {mode === "signin" ? "Sign up" : "Sign in"}

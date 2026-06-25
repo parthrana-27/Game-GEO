@@ -5,35 +5,36 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter", "ui-sans-serif", "system-ui"],
-        display: ["Outfit", "ui-sans-serif"],
+        sans: ["Space Grotesk", "ui-sans-serif", "system-ui"],
+        display: ["Space Grotesk", "ui-sans-serif"],
+        mono: ["Space Mono", "ui-monospace", "SFMono-Regular", "monospace"],
       },
       colors: {
         brand: {
-          50:  "#eef9ff",
-          100: "#d9f1ff",
-          200: "#bce8ff",
-          300: "#8edaff",
-          400: "#59c3ff",
-          500: "#33a5fc",
-          600: "#1d87f1",
-          700: "#166ede",
-          800: "#1858b3",
-          900: "#1a4d8d",
-          950: "#152f56",
+          50:  "#f0fff4",
+          100: "#dcffe3",
+          200: "#b3ffc2",
+          300: "#70ff90",
+          400: "#2eff5e",
+          500: "#00ff3c", // Tactical Volt Green
+          600: "#00d632",
+          700: "#00a326",
+          800: "#00701a",
+          900: "#003d0f",
+          950: "#001f07",
         },
         surface: {
-          50:  "#f8fafc",
-          100: "#f1f5f9",
-          200: "#e2e8f0",
-          300: "#cbd5e1",
-          400: "#94a3b8",
-          500: "#64748b",
-          600: "#475569",
-          700: "#334155",
-          800: "#1e293b",
-          900: "#0f172a",
-          950: "#020617",
+          50:  "#f5f6f7",
+          100: "#e9ebed",
+          200: "#ced2d6",
+          300: "#a8b0b8",
+          400: "#7b8894",
+          500: "#5d6a78",
+          600: "#46515c",
+          700: "#353e47",
+          800: "#22272c", // Carbon Slate
+          900: "#131619", // Tactical Obsidian
+          950: "#0a0c0e", // Jet Black
         },
       },
       animation: {
@@ -52,8 +53,8 @@ export default {
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
         pulseGlow: {
-          "0%, 100%": { boxShadow: "0 0 0 0 rgba(51,165,252,0.4)" },
-          "50%": { boxShadow: "0 0 20px 8px rgba(51,165,252,0.1)" },
+          "0%, 100%": { boxShadow: "0 0 0 0 rgba(0, 255, 60, 0.4)" },
+          "50%": { boxShadow: "0 0 20px 8px rgba(0, 255, 60, 0.1)" },
         },
       },
     },

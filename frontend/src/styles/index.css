@@ -2,13 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ── Google Fonts ────────────────────────────────────────────────────────── */
+/* ── Typography variables ────────────────────────────────────────────────── */
 :root {
-  --font-sans: "Inter", ui-sans-serif, system-ui;
-  --font-display: "Outfit", ui-sans-serif;
+  --font-sans: "Space Grotesk", ui-sans-serif, system-ui;
+  --font-display: "Space Grotesk", ui-sans-serif;
+  --font-mono: "Space Mono", monospace;
 }
 
-/* ── Base ─────────────────────────────────────────────────────────────────── */
+/* ── Base Reset ──────────────────────────────────────────────────────────── */
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -18,100 +19,144 @@ html {
 }
 
 body {
-  @apply bg-surface-950 text-surface-50 font-sans antialiased;
+  @apply bg-surface-950 text-surface-100 font-sans antialiased;
   min-height: 100dvh;
 }
 
 /* ── Scrollbar ───────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 4px;
+  height: 4px;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-surface-900;
+  @apply bg-surface-950;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-surface-700 rounded-full;
+  @apply bg-surface-800;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-brand-600;
+  @apply bg-brand-500;
 }
 
-/* ── Leaflet overrides ───────────────────────────────────────────────────── */
+/* ── Leaflet Maps overrides ──────────────────────────────────────────────── */
 .leaflet-container {
-  background: #0f172a !important;
+  background: #0a0c0e !important;
   font-family: var(--font-sans) !important;
-  border-radius: 0.75rem;
+  border: 1px solid #22272c !important;
+  border-radius: 0px !important;
 }
 
 .leaflet-control-attribution {
-  @apply bg-surface-900/80 text-surface-400 text-xs;
+  @apply bg-surface-950/90 text-surface-500 text-[10px] font-mono border-t border-l border-surface-800;
   backdrop-filter: blur(4px);
 }
 
 .leaflet-popup-content-wrapper {
-  @apply bg-surface-800 text-surface-50 shadow-xl;
-  border-radius: 0.75rem !important;
+  @apply bg-surface-900 text-surface-100 border border-surface-800 shadow-none font-sans;
+  border-radius: 0px !important;
 }
 
 .leaflet-popup-tip {
-  @apply bg-surface-800;
+  @apply bg-surface-900 border border-surface-800;
 }
 
-/* ── Utility classes ─────────────────────────────────────────────────────── */
+/* ── Tactical elements ────────────────────────────────────────────────────── */
 @layer components {
+  /* Buttons */
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl
-           bg-brand-600 hover:bg-brand-500 active:bg-brand-700
-           text-white font-semibold tracking-wide
-           transition-all duration-200 shadow-lg
-           focus:outline-none focus:ring-2 focus:ring-brand-400
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-none
+           bg-brand-500 hover:bg-brand-400 active:bg-brand-600
+           text-surface-950 font-mono font-bold tracking-wider uppercase text-sm
+           transition-all duration-150 border border-brand-300
+           focus:outline-none focus:ring-1 focus:ring-brand-400
            disabled:opacity-50 disabled:cursor-not-allowed;
-    box-shadow: 0 10px 15px -3px rgba(29, 135, 241, 0.2);
+    box-shadow: 0 4px 14px rgba(0, 255, 60, 0.15);
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl
-           bg-surface-800 hover:bg-surface-700 active:bg-surface-900
-           text-surface-100 font-semibold tracking-wide border border-surface-700
-           transition-all duration-200
-           focus:outline-none focus:ring-2 focus:ring-surface-500
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 rounded-none
+           bg-surface-900 hover:bg-surface-800 active:bg-surface-950
+           text-brand-400 font-mono font-bold tracking-wider uppercase text-sm
+           border border-surface-800 hover:border-brand-500/50
+           transition-all duration-150
+           focus:outline-none focus:ring-1 focus:ring-brand-400
            disabled:opacity-50 disabled:cursor-not-allowed;
   }
 
   .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-lg
-           text-surface-300 hover:text-surface-100 hover:bg-surface-800
-           font-medium transition-all duration-150
-           focus:outline-none focus:ring-2 focus:ring-surface-500;
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-none
+           text-surface-400 hover:text-brand-400 hover:bg-surface-900/50
+           font-mono font-bold tracking-wider uppercase text-xs
+           transition-all duration-150 border border-transparent hover:border-surface-800
+           focus:outline-none focus:ring-1 focus:ring-surface-700;
   }
 
+  /* Cards & Panels */
   .card {
-    @apply bg-surface-900/60 backdrop-blur-sm border border-surface-800 rounded-2xl p-6 shadow-xl;
+    @apply bg-surface-900/80 border border-surface-800/80 rounded-none p-6 relative;
   }
 
   .input-field {
-    @apply w-full px-4 py-3 rounded-xl bg-surface-800 border border-surface-700
-           text-surface-50 placeholder-surface-500
-           focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500
+    @apply w-full px-4 py-3 rounded-none bg-surface-950 border border-surface-800
+           text-surface-100 placeholder-surface-600 font-mono text-sm
+           focus:outline-none focus:border-brand-500 focus:ring-0
            transition-all duration-150;
   }
 
   .glass-panel {
-    @apply bg-surface-900/40 backdrop-blur-md border border-white/5 rounded-2xl;
+    @apply bg-surface-900/60 border border-surface-800/60 rounded-none relative;
   }
 
   .score-badge {
-    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full
-           bg-brand-600/20 text-brand-400 border border-brand-600/30
-           text-sm font-semibold;
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-none
+           bg-brand-500/10 text-brand-400 border border-brand-500/20
+           text-xs font-mono font-bold tracking-wider uppercase;
+  }
+
+  /* Custom tactical corners decoration (1px lines) */
+  .tactical-frame {
+    @apply relative border border-surface-800;
+  }
+  
+  .tactical-frame::before, .tactical-frame::after {
+    content: "";
+    @apply absolute w-2 h-2 pointer-events-none;
+  }
+
+  /* Corners */
+  .tactical-corner-tl::before {
+    content: "";
+    @apply absolute top-0 left-0 w-2.5 h-2.5 border-t-2 border-l-2 border-brand-500 pointer-events-none;
+  }
+  .tactical-corner-tr::before {
+    content: "";
+    @apply absolute top-0 right-0 w-2.5 h-2.5 border-t-2 border-r-2 border-brand-500 pointer-events-none;
+  }
+  .tactical-corner-bl::before {
+    content: "";
+    @apply absolute bottom-0 left-0 w-2.5 h-2.5 border-b-2 border-l-2 border-brand-500 pointer-events-none;
+  }
+  .tactical-corner-br::before {
+    content: "";
+    @apply absolute bottom-0 right-0 w-2.5 h-2.5 border-b-2 border-r-2 border-brand-500 pointer-events-none;
+  }
+
+  .scanline {
+    background: linear-gradient(
+      to bottom,
+      rgba(255,255,255,0),
+      rgba(255,255,255,0) 50%,
+      rgba(0, 255, 60, 0.04) 50%,
+      rgba(0, 255, 60, 0.04)
+    );
+    background-size: 100% 4px;
   }
 }
 
-/* ── Animations ──────────────────────────────────────────────────────────── */
+/* ── Animation & Styling utilities ───────────────────────────────────────── */
 @layer utilities {
   .text-gradient {
-    background: linear-gradient(135deg, #59c3ff 0%, #33a5fc 40%, #a78bfa 100%);
+    background: linear-gradient(135deg, #00ff3c 0%, #b3ff00 50%, #ffaa00 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -119,17 +164,17 @@ body {
 
   .bg-grid {
     background-image:
-      linear-gradient(rgba(51, 165, 252, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(51, 165, 252, 0.03) 1px, transparent 1px);
-    background-size: 40px 40px;
+      linear-gradient(rgba(0, 255, 60, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 255, 60, 0.02) 1px, transparent 1px);
+    background-size: 32px 32px;
   }
 
   .glow-brand {
-    box-shadow: 0 0 40px rgba(51, 165, 252, 0.15);
+    box-shadow: 0 0 30px rgba(0, 255, 60, 0.08);
   }
 }
 
-/* ── Light mode ──────────────────────────────────────────────────────────── */
+/* ── Light Mode overrides ────────────────────────────────────────────────── */
 .light body {
   @apply bg-surface-50 text-surface-900;
 }

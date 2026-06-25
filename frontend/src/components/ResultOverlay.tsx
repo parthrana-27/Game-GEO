@@ -17,15 +17,15 @@ function ScoreBar({ score }: { score: number }) {
   const pct = Math.min((score / 5000) * 100, 100);
   const color =
     pct > 75
-      ? "from-emerald-500 to-green-400"
+      ? "bg-brand-500 shadow-[0_0_8px_rgba(0,255,60,0.4)]"
       : pct > 40
-      ? "from-yellow-500 to-amber-400"
-      : "from-red-600 to-orange-500";
+      ? "bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.4)]"
+      : "bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.4)]";
 
   return (
-    <div className="w-full bg-surface-800 rounded-full h-3 overflow-hidden">
+    <div className="w-full bg-surface-950 border border-surface-800 h-3 overflow-hidden p-[1px]">
       <div
-        className={`h-full rounded-full bg-gradient-to-r ${color} transition-all duration-1000`}
+        className={`h-full ${color} transition-all duration-1000`}
         style={{ width: `${pct}%` }}
       />
     </div>
@@ -47,27 +47,32 @@ export function ResultOverlay({ result, onNext, loading }: Props) {
 
   const scoreColor =
     score > 4000
-      ? "text-emerald-400"
+      ? "text-brand-400"
       : score > 2000
-      ? "text-yellow-400"
+      ? "text-amber-400"
       : "text-red-400";
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="card max-w-lg w-full animate-slide-up max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+      <div className="card max-w-lg w-full bg-surface-900 border border-surface-800 rounded-none p-6 relative animate-slide-up max-h-[95vh] overflow-y-auto">
+        <span className="tactical-corner-tl"></span>
+        <span className="tactical-corner-tr"></span>
+        <span className="tactical-corner-bl"></span>
+        <span className="tactical-corner-br"></span>
+
         {/* Header */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-4 border-b border-surface-800/80 pb-4">
           <div>
-            <p className="text-surface-400 text-sm uppercase tracking-widest font-semibold">
-              Round {roundNumber} Result
+            <p className="text-surface-500 text-[10px] font-mono uppercase tracking-widest font-bold">
+              TELEMETRY ANALYSIS // ROUND_0{roundNumber}
             </p>
-            <h2 className="text-2xl font-display font-bold text-surface-50 mt-0.5">
-              {distanceKm < 50 ? "🎯 Incredible!" : distanceKm < 500 ? "👍 Not Bad!" : distanceKm < 2000 ? "😬 Getting there..." : "🌍 Way off!"}
+            <h2 className="text-xl font-mono font-bold text-surface-50 uppercase mt-1">
+              {distanceKm < 50 ? "🎯 DIRECT HIT" : distanceKm < 500 ? "👍 CLOSE PROXIMITY" : distanceKm < 2000 ? "😬 MARGINAL OFFSET" : "🌍 SIGNAL LOST"}
             </h2>
           </div>
-          <div className="text-right">
-            <p className="text-surface-400 text-xs">Total Score</p>
-            <p className="text-brand-400 font-bold text-xl">{totalScore.toLocaleString()}</p>
+          <div className="text-right font-mono">
+            <p className="text-surface-500 text-[10px] uppercase font-bold tracking-wider">TOTAL SCORE</p>
+            <p className="text-brand-400 font-bold text-lg tracking-wider">{totalScore.toLocaleString()}</p>
           </div>
         </div>
 
@@ -80,44 +85,44 @@ export function ResultOverlay({ result, onNext, loading }: Props) {
         />
 
         {/* Legend */}
-        <div className="flex gap-4 mt-3 text-sm">
+        <div className="flex gap-4 mt-3 text-[10px] font-mono uppercase border-b border-surface-800/50 pb-3">
           <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-emerald-500" />
-            <span className="text-surface-300">True location</span>
+            <div className="w-2.5 h-2.5 bg-emerald-500" />
+            <span className="text-surface-400">Target</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-3 h-3 rounded-full bg-brand-500" />
-            <span className="text-surface-300">Your guess</span>
+            <div className="w-2.5 h-2.5 bg-brand-500" />
+            <span className="text-surface-400">Guess</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-6 border-t-2 border-dashed border-violet-400" />
-            <span className="text-surface-300">Distance</span>
+            <div className="w-5 border-t border-dashed border-violet-400" />
+            <span className="text-surface-400">Delta Link</span>
           </div>
         </div>
 
         {/* Stats */}
-        <div className="mt-4 grid grid-cols-2 gap-3">
-          <div className="bg-surface-800 rounded-xl p-4 text-center">
-            <p className="text-surface-400 text-xs uppercase tracking-wider">Distance</p>
-            <p className="text-surface-50 font-bold text-xl mt-1">
+        <div className="mt-4 grid grid-cols-2 gap-3 font-mono">
+          <div className="bg-surface-950 border border-surface-800/80 p-4 text-center">
+            <p className="text-surface-500 text-[9px] uppercase tracking-wider font-bold">CALCULATED OFFSET</p>
+            <p className="text-surface-50 font-bold text-lg mt-1 tracking-wider">
               {distanceKm < 1
                 ? `${Math.round(distanceKm * 1000)} m`
                 : `${distanceKm.toLocaleString(undefined, { maximumFractionDigits: 1 })} km`}
             </p>
           </div>
-          <div className="bg-surface-800 rounded-xl p-4 text-center">
-            <p className="text-surface-400 text-xs uppercase tracking-wider">Round Score</p>
-            <p className={`font-bold text-xl mt-1 ${scoreColor}`}>
+          <div className="bg-surface-950 border border-surface-800/80 p-4 text-center">
+            <p className="text-surface-500 text-[9px] uppercase tracking-wider font-bold">ROUND CREDITS</p>
+            <p className={`font-bold text-lg mt-1 tracking-wider ${scoreColor}`}>
               +{score.toLocaleString()}
             </p>
           </div>
         </div>
 
         {/* Score bar */}
-        <div className="mt-4">
-          <div className="flex justify-between text-xs text-surface-500 mb-1">
-            <span>0</span>
-            <span>5,000</span>
+        <div className="mt-4 font-mono">
+          <div className="flex justify-between text-[9px] text-surface-500 mb-1">
+            <span>0000_MIN</span>
+            <span>5000_MAX</span>
           </div>
           <ScoreBar score={score} />
         </div>
@@ -127,19 +132,19 @@ export function ResultOverlay({ result, onNext, loading }: Props) {
           id="result-next-btn"
           onClick={onNext}
           disabled={loading}
-          className="btn-primary w-full mt-6 text-base"
+          className="btn-primary w-full mt-6 text-xs font-mono font-bold tracking-widest uppercase"
         >
           {loading ? (
-            <span className="flex items-center gap-2">
-              <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+            <span className="flex items-center gap-2 justify-center">
+              <svg className="animate-spin w-4 h-4 text-surface-950" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="31.4" strokeLinecap="round" />
               </svg>
-              Loading…
+              PROCESSING DATA...
             </span>
           ) : isLastRound ? (
-            "🏁 See Final Summary"
+            "🏁 COMMENCE EVALUATION"
           ) : (
-            "Next Round →"
+            "NEXT ROUND →"
           )}
         </button>
       </div>

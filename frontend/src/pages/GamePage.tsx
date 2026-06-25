@@ -42,51 +42,52 @@ export function GamePage({
   const pct = Math.round((roundNumber / totalRounds) * 100);
 
   return (
-    <div className="flex flex-col h-dvh bg-surface-950 overflow-hidden">
+    <div className="flex flex-col h-dvh bg-surface-950 overflow-hidden font-sans">
       {/* Top HUD */}
-      <div className="flex items-center gap-4 px-4 py-3 bg-surface-900/80 border-b border-surface-800 backdrop-blur-sm flex-shrink-0">
+      <div className="flex items-center gap-4 px-4 py-3 bg-surface-900/90 border-b border-surface-800/80 backdrop-blur-md flex-shrink-0 relative z-10">
         <button
           id="game-home-btn"
           onClick={onHome}
-          className="btn-ghost text-sm px-3 py-1.5"
+          className="btn-ghost text-xs px-3 py-1.5 font-mono"
           title="Back to home"
         >
-          ← Home
+          ← ABORT
         </button>
 
-        <div className="flex-1 flex flex-col gap-1">
-          <div className="flex justify-between text-xs text-surface-400">
-            <span>Round {roundNumber} / {totalRounds}</span>
-            <span>{pct}%</span>
+        <div className="flex-1 flex flex-col gap-1.5 max-w-xl">
+          <div className="flex justify-between text-[10px] font-mono font-bold tracking-widest text-surface-400">
+            <span>ROUND // 0{roundNumber}._0{totalRounds}</span>
+            <span>SYSTEM STATE: {pct}%</span>
           </div>
-          <div className="w-full bg-surface-800 rounded-full h-1.5 overflow-hidden">
+          <div className="w-full bg-surface-950 border border-surface-800 h-2 overflow-hidden p-[1px]">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-brand-600 to-brand-400 transition-all duration-500"
+              className="h-full bg-brand-500 transition-all duration-500 shadow-[0_0_8px_rgba(0,255,60,0.5)]"
               style={{ width: `${pct}%` }}
             />
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 px-3 py-1.5 bg-surface-800 rounded-xl border border-surface-700">
-          <span className="text-xs text-surface-400">Score</span>
-          <span className="font-bold text-brand-400 font-mono">{totalScore.toLocaleString()}</span>
+        <div className="flex items-center gap-2 px-3 py-1.5 bg-surface-950 border border-surface-850 text-xs font-mono">
+          <span className="text-surface-500 font-bold uppercase tracking-wider">SCORE //</span>
+          <span className="font-bold text-brand-400 font-mono tracking-widest">{totalScore.toLocaleString()}</span>
         </div>
       </div>
 
       {/* Game Content */}
-      <div className="flex-1 flex flex-col md:flex-row gap-0 overflow-hidden">
-        {/* Street View */}
-        <div className="flex-1 md:flex-[2] relative overflow-hidden p-2 md:p-3">
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
-            <div className="px-3 py-1.5 bg-surface-900/80 backdrop-blur rounded-full border border-surface-700 text-surface-300 text-xs font-medium">
-              📷 Street View — Round {roundNumber}
+      <div className="flex-1 flex flex-col md:flex-row gap-0 overflow-hidden relative">
+        {/* Street View Panel */}
+        <div className="flex-1 md:flex-[2] relative overflow-hidden p-2 md:p-3 bg-surface-950">
+          <div className="absolute top-4 left-4 z-10 pointer-events-none">
+            <div className="px-3 py-1.5 bg-surface-950/90 border border-surface-800 text-surface-400 text-[10px] font-mono tracking-wider flex items-center gap-2">
+              <span className="w-1.5 h-1.5 bg-brand-500 animate-pulse"></span>
+              IMAGERY FEED // SRC_ROUND_0{roundNumber}
             </div>
           </div>
           <StreetViewPanel lat={streetViewLat} lng={streetViewLng} />
         </div>
 
-        {/* Map panel */}
-        <div className="flex-none md:flex-1 flex flex-col p-2 md:p-3 gap-3 h-72 md:h-auto md:min-h-0">
+        {/* Map Panel */}
+        <div className="flex-none md:flex-1 flex flex-col p-2 md:p-3 gap-3 h-80 md:h-auto md:min-h-0 bg-surface-900 border-t md:border-t-0 md:border-l border-surface-800/80">
           <div className="flex-1 relative min-h-0">
             <GuessMap
               onGuessChange={handleGuessChange}
@@ -99,19 +100,19 @@ export function GamePage({
             id="submit-guess-btn"
             onClick={handleSubmit}
             disabled={!guessCoords || loading || !!guessResult}
-            className="btn-primary w-full text-base flex-shrink-0"
+            className="btn-primary w-full text-xs font-mono font-bold tracking-widest uppercase py-3.5 flex-shrink-0"
           >
             {loading ? (
               <span className="flex items-center gap-2 justify-center">
-                <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+                <svg className="animate-spin w-4 h-4 text-surface-950" viewBox="0 0 24 24" fill="none">
                   <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="3" strokeDasharray="31.4" strokeLinecap="round" />
                 </svg>
-                Checking…
+                CALCULATING OFFSET...
               </span>
             ) : !guessCoords ? (
-              "Place your guess on the map first"
+              "PLOT COORDINATES ON MAP"
             ) : (
-              "🎯 Submit Guess"
+              "🎯 SUBMIT TARGET COORDINATES"
             )}
           </button>
         </div>

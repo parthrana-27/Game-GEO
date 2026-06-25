@@ -55,3 +55,6 @@ coverage/
 .npm
 .vite
 .cache
+
+# Agent / Workspace files
+SKILL.md
