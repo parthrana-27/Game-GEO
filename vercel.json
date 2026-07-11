@@ -1,13 +1,27 @@
 {
   "version": 2,
+  "services": {
+    "frontend": {
+      "root": "frontend/"
+    },
+    "backend": {
+      "root": "backend/"
+    }
+  },
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "/api/index.ts"
+      "destination": {
+        "service": "backend",
+        "path": "/api/$1"
+      }
     },
     {
       "source": "/((?!api/).*)",
-      "destination": "/index.html"
+      "destination": {
+        "service": "frontend",
+        "path": "/index.html"
+      }
     }
   ]
 }

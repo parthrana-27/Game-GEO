@@ -57,10 +57,8 @@ app.use((_req, res) => {
 app.use(errorHandler);
 
 // ── Start Server ─────────────────────────────────────────────────────────────
-if (process.env.VERCEL !== "1") {
-  app.listen(PORT, () => {
-    console.log(`🚀 StreetSight backend running on http://localhost:${PORT}`);
-  });
-}
+app.listen(PORT, () => {
+  console.log(`🚀 StreetSight backend running on http://localhost:${PORT}`);
+});
 
 export default app;
