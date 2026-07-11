@@ -9,19 +9,29 @@
 import Redis from "ioredis";
 
 let client: Redis | null = null;
+let isRedisDisabled = false;
 
 /** Lazily create and reuse the Redis client. */
-function getClient(): Redis {
+function getClient(): Redis | null {
+  if (isRedisDisabled) return null;
   if (!client) {
-    const url = process.env.REDIS_URL ?? "redis://localhost:6379";
+    const url = process.env.REDIS_URL;
+    if (!url) {
+      console.log("[Redis] No REDIS_URL provided. Redis caching is disabled.");
+      isRedisDisabled = true;
+      return null;
+    }
     client = new Redis(url, {
-      maxRetriesPerRequest: 3,
+      maxRetriesPerRequest: 1,
+      connectTimeout: 2000,
       lazyConnect: true,
     });
 
     client.on("error", (err) => {
-      // Log but don't crash — the app works without Redis
       console.warn("[Redis] Connection error:", err.message);
+      // Disable Redis client on failure to prevent repeated timeout delays in serverless
+      isRedisDisabled = true;
+      client = null;
     });
   }
   return client;
@@ -33,7 +43,9 @@ function getClient(): Redis {
  */
 export async function cacheGet(key: string): Promise<string | null> {
   try {
-    return await getClient().get(key);
+    const redis = getClient();
+    if (!redis) return null;
+    return await redis.get(key);
   } catch {
     return null;
   }
@@ -49,7 +61,9 @@ export async function cacheSet(
   ttlSeconds = 60
 ): Promise<void> {
   try {
-    await getClient().set(key, value, "EX", ttlSeconds);
+    const redis = getClient();
+    if (!redis) return;
+    await redis.set(key, value, "EX", ttlSeconds);
   } catch {
     // non-fatal
   }
@@ -60,7 +74,9 @@ export async function cacheSet(
  */
 export async function cacheDel(key: string): Promise<void> {
   try {
-    await getClient().del(key);
+    const redis = getClient();
+    if (!redis) return;
+    await redis.del(key);
   } catch {
     // non-fatal
   }

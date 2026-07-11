@@ -4,10 +4,9 @@
  * Cache TTL: 60 seconds (configurable).
  */
 
-import { PrismaClient } from "@prisma/client";
+import prisma from "../utils/db";
 import { cacheGet, cacheSet } from "./cacheService";
 
-const prisma = new PrismaClient();
 const CACHE_TTL = 60; // seconds
 const TOP_N = 20;
 

@@ -3,11 +3,10 @@
  * Core game logic: starting games, advancing rounds, processing guesses.
  */
 
-import { PrismaClient } from "@prisma/client";
+import prisma from "../utils/db";
 import { haversine } from "../utils/haversine";
 import { calculateScore } from "../utils/scoring";
 
-const prisma = new PrismaClient();
 const ROUNDS_PER_GAME = 5;
 
 type Region = "WORLD" | "INDIA" | "CITY_SURAT";
