@@ -58,3 +58,6 @@ coverage/
 
 # Agent / Workspace files
 SKILL.md
+
+.vercel
+.env*
