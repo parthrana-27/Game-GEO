@@ -8,12 +8,13 @@ import { useState, useCallback } from "react";
 import { StreetViewPanel } from "../components/StreetViewPanel";
 import { GuessMap } from "../components/GuessMap";
 import { ResultOverlay } from "../components/ResultOverlay";
-import type { RoundLocationResponse, GuessResult } from "../types";
+import type { RoundLocationResponse, GuessResult, Region } from "../types";
 
 interface Props {
   roundInfo: RoundLocationResponse;
   guessResult: GuessResult | null;
   loading: boolean;
+  region: Region | null;
   onSubmitGuess: (lat: number, lng: number) => void;
   onNext: () => void;
   onHome: () => void;
@@ -23,6 +24,7 @@ export function GamePage({
   roundInfo,
   guessResult,
   loading,
+  region,
   onSubmitGuess,
   onNext,
   onHome,
@@ -92,6 +94,7 @@ export function GamePage({
             <GuessMap
               onGuessChange={handleGuessChange}
               disabled={!!guessResult || loading}
+              region={region}
             />
           </div>
 

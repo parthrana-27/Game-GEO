@@ -27,6 +27,7 @@ interface GameState {
   gameSummary: GameSummary | null;
   error: string | null;
   loading: boolean;
+  region: Region | null;
 }
 
 const initialState: GameState = {
@@ -37,6 +38,7 @@ const initialState: GameState = {
   gameSummary: null,
   error: null,
   loading: false,
+  region: null,
 };
 
 export function useGame() {
@@ -58,6 +60,7 @@ export function useGame() {
         phase: "playing",
         gameId: started.gameId,
         roundInfo: round,
+        region: region,
         guessResult: null,
         gameSummary: null,
         loading: false,

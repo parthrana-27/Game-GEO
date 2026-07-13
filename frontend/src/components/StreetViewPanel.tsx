@@ -103,12 +103,21 @@ export function StreetViewPanel({ lat, lng }: Props) {
   }
 
   return (
-    <div
-      ref={containerRef}
-      className="w-full h-full rounded-2xl overflow-hidden"
-      style={{ minHeight: 400 }}
-      aria-label="Street View panorama"
-    />
+    <div className="relative w-full h-full rounded-2xl overflow-hidden" style={{ minHeight: 400 }}>
+      {/* Background loader */}
+      <div className="absolute inset-0 bg-surface-900 flex flex-col items-center justify-center gap-4 text-center p-8 z-0">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-brand-500"></div>
+        <p className="text-surface-400 font-mono text-sm tracking-widest uppercase">
+          ACQUIRING STREET-LEVEL FEED...
+        </p>
+      </div>
+
+      <div
+        ref={containerRef}
+        className="absolute inset-0 w-full h-full z-10 bg-transparent"
+        aria-label="Street View panorama"
+      />
+    </div>
   );
 }
 

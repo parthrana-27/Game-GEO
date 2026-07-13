@@ -7,6 +7,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import L from "leaflet";
+import type { Region } from "../types";
 
 // Fix Leaflet's default icon path when bundled with Vite
 import markerIconUrl from "leaflet/dist/images/marker-icon.png";
@@ -41,9 +42,10 @@ const GUESS_ICON = L.divIcon({
 interface Props {
   onGuessChange: (lat: number, lng: number) => void;
   disabled?: boolean;
+  region?: Region | null;
 }
 
-export function GuessMap({ onGuessChange, disabled = false }: Props) {
+export function GuessMap({ onGuessChange, disabled = false, region = null }: Props) {
   const mapRef = useRef<L.Map | null>(null);
   const markerRef = useRef<L.Marker | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -52,9 +54,20 @@ export function GuessMap({ onGuessChange, disabled = false }: Props) {
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
 
+    let initialCenter: L.LatLngExpression = [20, 0];
+    let initialZoom = 2;
+
+    if (region === "INDIA") {
+      initialCenter = [20.5937, 78.9629];
+      initialZoom = 5;
+    } else if (region === "CITY_SURAT") {
+      initialCenter = [21.1702, 72.8311];
+      initialZoom = 12;
+    }
+
     const map = L.map(containerRef.current, {
-      center: [20, 0],
-      zoom: 2,
+      center: initialCenter,
+      zoom: initialZoom,
       minZoom: 1,
       maxZoom: 18,
       worldCopyJump: true,
@@ -88,7 +101,7 @@ export function GuessMap({ onGuessChange, disabled = false }: Props) {
       markerRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [region]);
 
   // Sync disabled state
   useEffect(() => {
