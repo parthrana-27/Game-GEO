@@ -85,9 +85,7 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_API_URL: /api
-        VITE_STREET_VIEW_API_KEY: ${STREET_VIEW_API_KEY:-}
         VITE_MAPILLARY_ACCESS_TOKEN: ${MAPILLARY_ACCESS_TOKEN:-}
-        VITE_STREET_VIEW_PROVIDER: ${STREET_VIEW_PROVIDER:-mapillary}
         VITE_OSM_TILE_URL: ${OSM_TILE_URL:-https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png}
     container_name: ss_frontend
     restart: unless-stopped
