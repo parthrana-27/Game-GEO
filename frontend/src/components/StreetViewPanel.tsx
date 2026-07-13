@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-const PROVIDER = import.meta.env.VITE_STREET_VIEW_PROVIDER ?? "google";
+const PROVIDER = import.meta.env.VITE_STREET_VIEW_PROVIDER ?? "mapillary";
 const GOOGLE_API_KEY = import.meta.env.VITE_STREET_VIEW_API_KEY ?? "";
 const MAPILLARY_TOKEN = import.meta.env.VITE_MAPILLARY_ACCESS_TOKEN ?? "";
 

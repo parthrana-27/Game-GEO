@@ -6,7 +6,7 @@ A production-ready, GeoGuessr-style geography guessing game built with React, No
 
 ## ✨ Features
 
-- **Street View panorama** — Powered by Google Maps JavaScript API
+- **Street View panorama** — Powered by Mapillary (default) or Google Maps JavaScript API
 - **Interactive Leaflet map** — Place your guess anywhere on the world map using OpenStreetMap tiles
 - **Distance-based scoring** — Up to 5,000 points per round using the haversine formula
 - **5-round game sessions** — With region modes: World, India, and Surat City
@@ -34,7 +34,7 @@ A production-ready, GeoGuessr-style geography guessing game built with React, No
 
 ### Prerequisites
 - [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
-- A [Google Maps API key](https://console.cloud.google.com/) with **Maps JavaScript API** enabled
+- A [Mapillary client-side access token](https://www.mapillary.com/developer) (default, free) or a [Google Maps API key](https://console.cloud.google.com/) with **Maps JavaScript API** enabled (optional fallback)
 
 ### Steps
 
@@ -124,7 +124,9 @@ npm run dev
 | Variable | Required | Description |
 |---|---|---|
 | `JWT_SECRET` | ✅ | Long random string for signing JWTs |
-| `STREET_VIEW_API_KEY` | ✅ (for SV) | Google Maps API key |
+| `MAPILLARY_ACCESS_TOKEN` | ✅ (for Mapillary) | Mapillary client-side access token (default) |
+| `STREET_VIEW_API_KEY` | ✅ (for Google SV) | Google Maps API key (optional fallback) |
+| `STREET_VIEW_PROVIDER` | ❌ | Street View provider: `mapillary` (default) or `google` |
 | `OSM_TILE_URL` | ❌ | Custom OSM tile URL (default: standard OSM) |
 
 ### Backend `backend/.env`
@@ -134,7 +136,7 @@ npm run dev
 | `DATABASE_URL` | — | PostgreSQL connection string |
 | `REDIS_URL` | `redis://localhost:6379` | Redis connection URL |
 | `JWT_SECRET` | — | JWT signing secret |
-| `STREET_VIEW_API_KEY` | — | Google API key |
+| `STREET_VIEW_API_KEY` | — | Google API key (for Google SV, if used) |
 | `PORT` | `3001` | HTTP port |
 | `FRONTEND_URL` | `http://localhost:5173` | CORS allowed origin |
 
@@ -143,7 +145,9 @@ npm run dev
 | Variable | Default | Description |
 |---|---|---|
 | `VITE_API_URL` | `/api` | Backend API base URL |
+| `VITE_MAPILLARY_ACCESS_TOKEN` | — | Mapillary client-side access token |
 | `VITE_STREET_VIEW_API_KEY` | — | Google API key (client-side) |
+| `VITE_STREET_VIEW_PROVIDER` | `mapillary` | Street View provider: `mapillary` (default) or `google` |
 | `VITE_OSM_TILE_URL` | Standard OSM | Overrides the map tile URL |
 
 ---

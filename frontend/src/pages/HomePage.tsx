@@ -153,7 +153,7 @@ export function HomePage({ auth, onPlay, onShowAuth, onSignout, onLeaderboard }:
       </main>
 
       <footer className="text-center py-4 text-surface-600 text-[10px] font-mono border-t border-surface-800/40 relative z-10 bg-surface-950/20">
-        SYS_STATUS: ONLINE // IMAGERY DATA © GOOGLE MAPS · CARTOGRAPHY BY OPENSTREETMAP
+        SYS_STATUS: ONLINE // IMAGERY DATA © MAPILLARY / GOOGLE MAPS · CARTOGRAPHY BY OPENSTREETMAP
       </footer>
     </div>
   );
