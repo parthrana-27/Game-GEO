@@ -27,16 +27,16 @@ const OSM_TILE_URL =
 
 const GUESS_ICON = L.divIcon({
   className: "",
-  html: `<div style="
-    width:28px;height:28px;
-    background:#33a5fc;
-    border:3px solid #fff;
-    border-radius:50% 50% 50% 0;
-    transform:rotate(-45deg);
-    box-shadow:0 2px 8px rgba(51,165,252,0.6);
-  "></div>`,
-  iconSize: [28, 28],
-  iconAnchor: [14, 28],
+  html: `
+    <div class="relative w-8 h-8 flex items-center justify-center">
+      <div class="w-6 h-6 rounded-full bg-white border-2 border-indigo-600 flex items-center justify-center shadow-lg transform hover:scale-105 transition-transform">
+        <div class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></div>
+      </div>
+      <div class="absolute bottom-0 w-1.5 h-1.5 bg-indigo-600 rotate-45 transform translate-y-0.5 shadow-sm"></div>
+    </div>
+  `,
+  iconSize: [32, 32],
+  iconAnchor: [16, 32],
 });
 
 interface Props {
@@ -125,9 +125,9 @@ export function GuessMap({ onGuessChange, disabled = false, region = null }: Pro
         aria-label="Guess map — click to place your guess"
       />
       {!hasGuess && !disabled && (
-        <div className="absolute inset-x-0 bottom-4 flex justify-center pointer-events-none">
-          <div className="px-4 py-2 bg-surface-900/90 backdrop-blur rounded-xl border border-surface-700 text-surface-300 text-sm font-medium shadow-lg animate-pulse">
-            👆 Click on the map to place your guess
+        <div className="absolute inset-x-0 bottom-6 flex justify-center pointer-events-none z-[1000]">
+          <div className="px-5 py-2.5 bg-surface-900/95 backdrop-blur-md border border-surface-800 text-surface-200 text-xs font-sans font-semibold tracking-wide rounded-xl shadow-lg flex items-center gap-2">
+            <span>📍 Click on the map to guess the location</span>
           </div>
         </div>
       )}

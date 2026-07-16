@@ -13,29 +13,28 @@ const OSM_TILE_URL =
 
 const TRUE_ICON = L.divIcon({
   className: "",
-  html: `<div style="
-    width:32px;height:32px;
-    background:#22c55e;
-    border:3px solid #fff;
-    border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    font-size:14px;
-    box-shadow:0 2px 10px rgba(34,197,94,0.6);
-  ">✓</div>`,
+  html: `
+    <div class="relative w-8 h-8 flex items-center justify-center animate-bounce">
+      <div class="w-6 h-6 rounded-full bg-white border-2 border-emerald-500 flex items-center justify-center shadow-lg">
+        <span class="text-emerald-500 font-sans font-extrabold text-[12px]">✓</span>
+      </div>
+      <div class="absolute bottom-0 w-1.5 h-1.5 bg-emerald-500 rotate-45 transform translate-y-0.5 shadow-sm"></div>
+    </div>
+  `,
   iconSize: [32, 32],
-  iconAnchor: [16, 16],
+  iconAnchor: [16, 32],
 });
 
 const GUESS_ICON = L.divIcon({
   className: "",
-  html: `<div style="
-    width:32px;height:32px;
-    background:#33a5fc;
-    border:3px solid #fff;
-    border-radius:50% 50% 50% 0;
-    transform:rotate(-45deg);
-    box-shadow:0 2px 10px rgba(51,165,252,0.6);
-  "></div>`,
+  html: `
+    <div class="relative w-8 h-8 flex items-center justify-center">
+      <div class="w-6 h-6 rounded-full bg-white border-2 border-indigo-600 flex items-center justify-center shadow-lg">
+        <div class="w-2 h-2 rounded-full bg-indigo-600 animate-pulse"></div>
+      </div>
+      <div class="absolute bottom-0 w-1.5 h-1.5 bg-indigo-600 rotate-45 transform translate-y-0.5 shadow-sm"></div>
+    </div>
+  `,
   iconSize: [32, 32],
   iconAnchor: [16, 32],
 });
@@ -92,10 +91,10 @@ export function ResultMap({ trueLat, trueLng, guessLat, guessLng }: Props) {
         [guessLat, guessLng],
       ],
       {
-        color: "#a78bfa",
-        weight: 2,
-        dashArray: "8 6",
-        opacity: 0.8,
+        color: "#818cf8",
+        weight: 3,
+        dashArray: "6 6",
+        opacity: 0.9,
       }
     ).addTo(map);
 
