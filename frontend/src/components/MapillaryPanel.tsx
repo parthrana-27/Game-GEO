@@ -54,8 +54,9 @@ export function MapillaryPanel({ lat, lng }: Props) {
     const minLat = lat - offset;
     const maxLng = lng + offset;
     const maxLat = lat + offset;
-
-    const url = `https://graph.mapillary.com/images?access_token=${MAPILLARY_TOKEN}&fields=id,geometry&bbox=${minLng},${minLat},${maxLng},${maxLat}&limit=10`;
+    const url = `https://graph.mapillary.com/images?access_token=${encodeURIComponent(
+      MAPILLARY_TOKEN
+    )}&fields=id,geometry&bbox=${minLng},${minLat},${maxLng},${maxLat}&limit=10`;
 
     fetch(url)
       .then((res) => {
